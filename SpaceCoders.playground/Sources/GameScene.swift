@@ -1,0 +1,77 @@
+import SpriteKit
+
+public class GameScene: SKScene, SKPhysicsContactDelegate {
+
+    public var everySecond: (() ->()) = {print("pls")}
+    public var spawnCode: (() ->()) = {print("spawning")}
+    
+    private var count = 0
+    var spawners:[SKSpriteNode] = []
+    
+    override public init(size: CGSize) {
+        super.init(size: size)
+        self.physicsWorld.gravity = CGVector.zero
+        self.physicsWorld.contactDelegate = self
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    // collisions
+    public func didBegin(_ contact: SKPhysicsContact) {
+        // 1
+        var firstBody: SKPhysicsBody
+        var secondBody: SKPhysicsBody
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            firstBody = contact.bodyA
+            secondBody = contact.bodyB
+        } else {
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        
+        // 2
+        if ((firstBody.categoryBitMask & PhysicsCategory.Enemy != 0) &&
+            (secondBody.categoryBitMask & PhysicsCategory.Bullet != 0)) {
+            if let enemy = firstBody.node as? SKSpriteNode, let
+                bullet = secondBody.node as? SKSpriteNode {
+                self.collision(a: bullet, b: enemy)            }
+        }
+        
+    }
+    
+    func collision(a: SKSpriteNode, b: SKSpriteNode) {
+        if (a.className == "Player") {
+            if (b.name == "bullet") {return}
+            let player = a as! Player
+            // game over
+            player.removeFromParent()
+            b.removeFromParent()
+            print("You Lose :(")
+        }
+        else if (b.className == "Player") {
+            if (a.name == "bullet") {return}
+            let player = b as! Player
+            // game over
+            player.removeFromParent()
+            a.removeFromParent()
+            print("You Lose :(")
+        }
+        else { // its a bullet and an enemy
+            a.removeFromParent()
+            b.removeFromParent()
+            print("You destroyed an enemy!")
+        }
+    }
+    override public func update(_ currentTime: TimeInterval) {
+        count += 1
+        if ((count % 40) == 0) {
+            self.everySecond()
+            
+        }
+        if ((count % 160) == 0) {
+            self.spawnCode()
+        }
+    }
+}
