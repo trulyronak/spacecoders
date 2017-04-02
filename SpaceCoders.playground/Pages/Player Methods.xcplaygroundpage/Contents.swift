@@ -21,7 +21,8 @@ game.everySecond {
 */
     // write code here
     player.fire()
-    player.moveDown()
+    
+    
 }
 //: [Learn how to detect where enemies will spawn](@next)
 func startGame() {

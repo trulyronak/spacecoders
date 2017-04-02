@@ -99,7 +99,7 @@ public class SpaceCodersGame {
                     explosion.position = enemy.position
                     explosion.run(SKAction.sequence([SKAction.fadeOut(withDuration: 2), SKAction.removeFromParent()]))
                     self.scene.addChild(explosion)
-                    print("You Lose :(")
+                    //print("You Lose :(")
                 }
                 enemy.run(SKAction.sequence([moveForward, endGame, SKAction.removeFromParent()]))
                 self.scene.addChild(enemy)

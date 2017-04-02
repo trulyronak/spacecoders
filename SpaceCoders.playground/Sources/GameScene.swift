@@ -49,7 +49,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
             // game over
             //player.removeFromParent()
             b.removeFromParent()
-            print("You Lose :(")
+            //print("You Lose :(")
             createExplosion(atPoint: player.position)
             gameOver()
         }
@@ -59,7 +59,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
             // game over
             //player.removeFromParent()
             a.removeFromParent()
-            print("You Lose :(")
+            //print("You Lose :(")
             createExplosion(atPoint: player.position)
             gameOver()
         }

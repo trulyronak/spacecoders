@@ -13,9 +13,9 @@ game.everySecond {
     //Get Player Location
     //Get Spawned Enemy's Location
     //if (playerLoc > enemyLoc)
-    //	move down
-    //else
     //	move up
+    //else
+    //	move down
     //
     //fire bullets
 }
