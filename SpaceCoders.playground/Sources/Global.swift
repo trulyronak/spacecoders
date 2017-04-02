@@ -1,10 +1,11 @@
 import UIKit
 import SpriteKit
 
-// sloppy coding :P
-var bullets = [SKSpriteNode]()
-var enemies = [SKSpriteNode]()
 
+var bullets = [SKSpriteNode]() //deprecated
+var enemies = [SKSpriteNode]() //deprecated
+
+var nextEnemyLocation = 3
 struct PhysicsCategory {
     static let None      : UInt32 = 0
     static let All       : UInt32 = UInt32.max

@@ -8,14 +8,22 @@ public class SpaceCodersGame {
     
     public var onClick: (() ->())!
     
-    public var nextSpawnLoc = 0 //options: 0,1,2,3,4
+    public var nextSpawnLocation: Int {
+        get {
+            return nextEnemyLocation
+        }
+        set(new) {
+            self.nextSpawnLocation = new
+        }
+    }
+    //options: 0,1,2,3,4
     var spawners:[SKSpriteNode] = []
     
     public init() {
         sceneView = SKView(frame: CGRect(x:0 , y:0, width: 600, height: 800))
         
         scene = GameScene(size: CGSize(width: 600, height: 800))
-        sceneView.showsFPS = true
+        //sceneView.showsFPS = true
         sceneView.presentScene(scene)
         
         
@@ -53,7 +61,7 @@ public class SpaceCodersGame {
         
         
         for loc in locs {
-            let spawner = SKSpriteNode(imageNamed: "spawner.png")
+            let spawner = SKSpriteNode(color: UIColor.clear, size: CGSize(width: 50, height: 50))
             spawner.name = "spawner"
             spawner.size = CGSize(width: 50, height: 50)
             spawner.position = loc
@@ -63,13 +71,15 @@ public class SpaceCodersGame {
             scene.addChild(spawner)
             spawners.append(spawner)
         }
+    
+        
         scene.spawnCode = {
-            self.nextSpawnLoc = Int.random(start: 0, end: self.spawners.count)
+            
             let spawnEnemyAction = SKAction.run {
                 let enemy = SKSpriteNode(imageNamed: "enemy.png")
                 enemy.name = "enemy"
                 enemy.size = CGSize(width: 50, height: 50)
-                enemy.position = self.spawners[self.nextSpawnLoc].position
+                enemy.position = self.spawners[self.nextSpawnLocation].position
                 // physics 
                 enemy.physicsBody = SKPhysicsBody(rectangleOf: enemy.size)
                 enemy.physicsBody?.isDynamic = true
@@ -83,13 +93,19 @@ public class SpaceCodersGame {
                 let endGame = SKAction.run {
                     // this code runs if enemy reached other side
                     // thus, game is over
-                    print("You Lose! :( ")
+                    //print("You Lose! :( ")
+                    let explosion = SKSpriteNode(imageNamed: "explosion.png")
+                    explosion.size = enemy.size
+                    explosion.position = enemy.position
+                    explosion.run(SKAction.sequence([SKAction.fadeOut(withDuration: 2), SKAction.removeFromParent()]))
+                    self.scene.addChild(explosion)
+                    print("You Lose :(")
                 }
                 enemy.run(SKAction.sequence([moveForward, endGame, SKAction.removeFromParent()]))
                 self.scene.addChild(enemy)
                 
             }
-            self.spawners[self.nextSpawnLoc].run(spawnEnemyAction)
+            self.spawners[self.nextSpawnLocation].run(spawnEnemyAction)
         }
      
     }

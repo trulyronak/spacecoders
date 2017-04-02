@@ -7,6 +7,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var count = 0
     var spawners:[SKSpriteNode] = []
+    var generatedRandom = false
     
     override public init(size: CGSize) {
         super.init(size: size)
@@ -46,32 +47,56 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
             if (b.name == "bullet") {return}
             let player = a as! Player
             // game over
-            player.removeFromParent()
+            //player.removeFromParent()
             b.removeFromParent()
             print("You Lose :(")
+            createExplosion(atPoint: player.position)
+            gameOver()
         }
         else if (b.className == "Player") {
             if (a.name == "bullet") {return}
             let player = b as! Player
             // game over
-            player.removeFromParent()
+            //player.removeFromParent()
             a.removeFromParent()
             print("You Lose :(")
+            createExplosion(atPoint: player.position)
+            gameOver()
         }
         else { // its a bullet and an enemy
             a.removeFromParent()
             b.removeFromParent()
-            print("You destroyed an enemy!")
+            //print("You destroyed an enemy!")
+            createExplosion(atPoint: b.position)
         }
+    }
+    func gameOver() {
+        let text = SKLabelNode(text: "Game Over")
+        text.color = UIColor.white
+    
+        text.position = CGPoint(x: (self.scene?.size.width)! / 2, y: (self.scene?.size.height)! / 2)
+        self.addChild(text)
+    }
+    func createExplosion(atPoint: CGPoint) {
+        let explosion = SKSpriteNode(imageNamed: "explosion.png")
+        explosion.size = CGSize(width: 100, height: 100)
+        explosion.position = atPoint
+        explosion.run(SKAction.sequence([SKAction.fadeOut(withDuration: 2), SKAction.removeFromParent()]))
+        self.addChild(explosion)
     }
     override public func update(_ currentTime: TimeInterval) {
         count += 1
+        if (!generatedRandom) {
+            nextEnemyLocation = Int.random(start: 0, end: 4)
+            generatedRandom = true
+        }
         if ((count % 40) == 0) {
             self.everySecond()
             
         }
-        if ((count % 160) == 0) {
+        if ((count % 200) == 0) {
             self.spawnCode()
+            generatedRandom = false
         }
     }
 }

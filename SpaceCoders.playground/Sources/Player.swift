@@ -3,9 +3,10 @@ import SpriteKit
 
 public class Player: SKSpriteNode {
     
-    public var loc: Int = 2
+    public var location: Int = 2
     public var referenceLocs: [CGPoint]!
     public var moving = false
+    public var velocity: TimeInterval = 0.6
     
     public func moveUp() {
         /*
@@ -13,12 +14,12 @@ public class Player: SKSpriteNode {
         if it can't, don't move up
         if it can, move up
         */
-        if (loc == 0) {
+        if (location == 0) {
             //can't move anymore
         }
         else if (!moving) {
-            loc -= 1
-            let move = SKAction.moveTo(y: referenceLocs[loc].y, duration: 1)
+            location -= 1
+            let move = SKAction.moveTo(y: referenceLocs[location].y, duration: velocity)
             self.run(SKAction.sequence([move, SKAction.run {
                 self.moving = false
                 }]))
@@ -27,12 +28,12 @@ public class Player: SKSpriteNode {
     }
     
     public func moveDown() {
-        if (loc == 4) {
+        if (location == 4) {
             //can't move anymore
         }
         else if (!moving) {
-            loc += 1
-            let move = SKAction.moveTo(y: referenceLocs[loc].y, duration: 1)
+            location += 1
+            let move = SKAction.moveTo(y: referenceLocs[location].y, duration: velocity)
             self.run(SKAction.sequence([move, SKAction.run {
                 self.moving = false
                 }]))
