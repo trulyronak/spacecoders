@@ -22,7 +22,7 @@ Space Coders' Objective is to leave students with a basic understanding of how d
 
 #### To Use
 
-- Simply download a release from the [releases page]()
+- Simply download a release from the [releases page](https://github.com/ronakdev/SpaceCoders/releases/tag/1.0)
 
 #### For Development
 
