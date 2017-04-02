@@ -3,6 +3,8 @@
 
 SpaceCoders is an interactive tutorial designed to teach students the basics of AI Game Programming
 
+<img src="example.png" alt="Example of SpaceCoders (Screenshot)" />
+
 ## Objectives
 
 Space Coders' Objective is to leave students with a basic understanding of how developers create basic AIs
